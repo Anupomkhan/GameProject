@@ -9,17 +9,25 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity {
+
     GamePanel gp;
     KeyHandler keyH;
+    public final int screenX;
+    public final int screenY;
+
     public Player (GamePanel gp,KeyHandler keyH) {
         this.gp=gp;
         this.keyH=keyH;
+
+        screenX=gp.screenWidth/2-(gp.tileSize/2);
+        screenY=gp.screenHeight/2-(gp.tileSize/2);
+
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues() {
-        x=100;
-        y=100;
+        worldX=gp.tileSize*46;
+        worldY=gp.tileSize*42;
         speed=4;
         direction="down";
     }
@@ -42,19 +50,19 @@ public class Player extends Entity {
         if(keyH.upPressed==true || keyH.downPressed==true || keyH.leftPressed==true || keyH.rightPressed==true){
             if(keyH.upPressed) {
                 direction = "up";
-                y-=speed;
+                worldY-=speed;
             }
             else if(keyH.downPressed) {
                 direction = "down";
-                y+=speed;
+                worldY+=speed;
             }
             else if(keyH.leftPressed) {
                 direction = "left";
-                x-=speed;
+                worldX-=speed;
             }
             else if(keyH.rightPressed) {
                 direction = "right";
-                x+=speed;
+                worldX+=speed;
             }
             spriteCounter++;
             if(spriteCounter>10){
@@ -69,8 +77,6 @@ public class Player extends Entity {
 
     }
     public void draw(Graphics2D g2){
-//        g2.setColor(Color.WHITE);
-//        g2.fillRect(x,y,gp.tileSize,gp.tileSize);
         BufferedImage image= null;
         switch (direction){
             case "up":
@@ -106,7 +112,7 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image,x,y,gp.tileSize,gp.tileSize,null);
+        g2.drawImage(image,screenX,screenY ,gp.tileSize,gp.tileSize,null);
 
     }
 }

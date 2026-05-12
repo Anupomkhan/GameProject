@@ -16,17 +16,18 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth=tileSize*maxScreenCol;// 768 pixels
     public final int screenHeight=tileSize*maxScreenRow;// 576 pixels
 
+    //World Settings
+    public final int maxWorldCol = 100;
+    public final int maxWorldRow = 100;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
     int FPS=60;
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player=new Player(this,keyH);
-
-//    //set player default position:
-//    int playerX=100;
-//    int playerY=100;
-//    int playerSpeed=4;
+    public Player player=new Player(this,keyH);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -42,55 +43,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     @Override
-//    public void run(){
-//        double drawInterval=1000000000/FPS; //0.016666666 seconds
-//        double nextDrawTime=System.nanoTime()+drawInterval;
-//
-//        while (gameThread!=null){
-//            long currentTime =  System.nanoTime();
-//            //System.out.println("The game loop is running");
-//            //update:update information such as character position
-//            update();
-//            //draw:draw the screen with the updated information;
-//            repaint();
-//            try{
-//                double remainingTime=nextDrawTime-System.nanoTime();
-//                remainingTime/=1000000;
-//                if(remainingTime<0){
-//                    remainingTime=0;
-//                }
-//                Thread.sleep((long)remainingTime);
-//                nextDrawTime+= drawInterval;
-//            }
-//            catch (InterruptedException e){
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
     public void run() {
         double drawInterval=1000000000/FPS;
         double delta=0;
         long lastTime = System.nanoTime();
         long currentTime ;
-        //long timer=0;
-        //int drawCount=0;
 
         while (gameThread!=null) {
+
             currentTime=System.nanoTime();
             delta+=(currentTime-lastTime)/drawInterval;
+
             lastTime=currentTime;
-            //timer+=(currentTime-lastTime);
             if(delta>=1) {
                 update();
                 repaint();
                 delta--;
-                //drawCount++;
             }
-//            if(timer>=1000000000){
-//                System.out.println("FPS:"+drawCount);
-//                drawCount=0;
-//                timer=0;
-//            }
         }
     }
     public void update() {
