@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public UI ui = new UI(this);
     public AssetSetter aSetter = new AssetSetter(this);
     Thread gameThread;
 
@@ -79,16 +80,22 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D) g;
+
         //tile
         tileM.draw(g2);//layer-1
+
         //object
-        for (int i = 0; i <obj.length; i++) {
+        for (int i = 0; i <obj.length; i++) { //layer-2
             if (obj[i]!=null){
                 obj[i].draw(g2,this);
             }
         }
+
         //player
         player.draw(g2);//layer-3
+
+        //UI
+        ui.draw(g2);//layer-4
         g2.dispose();
 
     }
