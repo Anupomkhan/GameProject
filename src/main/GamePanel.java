@@ -1,6 +1,6 @@
 package main;
 import entity.Player;
-import object.SuperObject;
+import object.GameObject;
 import tile.TileManager;
 
 import java.awt.*;
@@ -8,33 +8,39 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
     //Screen settings
-    final int originalTileSize=16; //16*16 tile
-    final int scale=3;
+    public static final int SOUND_MUSIC = 0;
+    public static final int SOUND_COIN = 1;
+    public static final int SOUND_POWER_UP = 2;
+    public static final int SOUND_UNLOCK = 3;
+    public static final int SOUND_FANFARE = 4;
 
-    public final int tileSize=originalTileSize*scale; //48*48 tile
-    public final int maxScreenCol=16;
-    public final int maxScreenRow=12;
-    public final int screenWidth=tileSize*maxScreenCol;// 768 pixels
-    public final int screenHeight=tileSize*maxScreenRow;// 576 pixels
+    private final int originalTileSize=16; //16*16 tile
+    private final int scale=3;
+
+    private final int tileSize=originalTileSize*scale; //48*48 tile
+    private final int maxScreenCol=16;
+    private final int maxScreenRow=12;
+    private final int screenWidth=tileSize*maxScreenCol;// 768 pixels
+    private final int screenHeight=tileSize*maxScreenRow;// 576 pixels
 
     //World Settings
-    public final int maxWorldCol = 100;
-    public final int maxWorldRow = 100;
+    private final int maxWorldCol = 100;
+    private final int maxWorldRow = 100;
 
-    int FPS=60;
+    private final int FPS=60;
 
     //System
-    TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
-    Sound sound = new Sound();
-    public CollisionChecker cChecker = new CollisionChecker(this);
-    public UI ui = new UI(this);
-    public AssetSetter aSetter = new AssetSetter(this);
-    Thread gameThread;
+    private final TileManager tileM = new TileManager(this);
+    private final KeyHandler keyH = new KeyHandler();
+    private final Sound sound = new Sound();
+    private final CollisionChecker cChecker = new CollisionChecker(this);
+    private final UI ui = new UI(this);
+    private final AssetSetter aSetter = new AssetSetter(this);
+    private Thread gameThread;
 
     //Entity and Object
-    public Player player=new Player(this,keyH);
-    public SuperObject obj[] = new SuperObject[10];
+    private final Player player=new Player(this,keyH);
+    private final GameObject obj[] = new GameObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -46,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame (){
         aSetter.setObject();
-        playMusic(0);
+        playMusic(SOUND_MUSIC);
     }
 
     public void startGameThread() {
@@ -110,5 +116,67 @@ public class GamePanel extends JPanel implements Runnable {
     public void playSE (int i) {
         sound.setFile(i);
         sound.play();
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    public int getMaxWorldCol() {
+        return maxWorldCol;
+    }
+
+    public int getMaxWorldRow() {
+        return maxWorldRow;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public TileManager getTileManager() {
+        return tileM;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return cChecker;
+    }
+
+    public UI getUi() {
+        return ui;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getObjectCount() {
+        return obj.length;
+    }
+
+    public GameObject getObject(int index) {
+        return obj[index];
+    }
+
+    public void setObject(int index, GameObject gameObject, int worldCol, int worldRow) {
+        obj[index] = gameObject;
+        obj[index].setWorldPosition(worldCol * tileSize, worldRow * tileSize);
+    }
+
+    public void removeObject(int index) {
+        obj[index] = null;
+    }
+
+    public void finishGame() {
+        ui.setGameFinished(true);
+        stopMusic();
+    }
+
+    public void stopGameThread() {
+        gameThread = null;
     }
 }

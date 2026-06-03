@@ -1,54 +1,25 @@
 package main;
 
-import object.OBJ_Boots;
-import object.OBJ_Chest;
-import object.OBJ_Door;
-import object.OBJ_Key;
+import object.BootsObject;
+import object.ChestObject;
+import object.DoorObject;
+import object.KeyObject;
 
 public class AssetSetter  {
-    GamePanel gp;
+    private final GamePanel gp;
     public AssetSetter(GamePanel gp){
         this.gp = gp;
     }
     public void setObject() {
-        gp.obj[0] = new OBJ_Key();
-        gp.obj[0].worldX = 50 * gp.tileSize;
-        gp.obj[0].worldY = 94 * gp.tileSize;
-
-        gp.obj[1] = new OBJ_Key();
-        gp.obj[1].worldX = 94 * gp.tileSize;
-        gp.obj[1].worldY = 54 * gp.tileSize;
-
-        gp.obj[2] = new OBJ_Key();
-        gp.obj[2].worldX = 18 * gp.tileSize;
-        gp.obj[2].worldY = 15 * gp.tileSize;
-
-        gp.obj[3] = new OBJ_Door();
-        gp.obj[3].worldX = 87 * gp.tileSize;
-        gp.obj[3].worldY = 15 * gp.tileSize;
-
-        gp.obj[4] = new OBJ_Chest();
-        gp.obj[4].worldX = 87 * gp.tileSize;
-        gp.obj[4].worldY = 17 * gp.tileSize;
-
-        gp.obj[5] = new OBJ_Door();
-        gp.obj[5].worldX = 5 * gp.tileSize;
-        gp.obj[5].worldY = 3 * gp.tileSize;
-
-        gp.obj[6] = new OBJ_Chest();
-        gp.obj[6].worldX = 7 * gp.tileSize;
-        gp.obj[6].worldY = 5 * gp.tileSize;
-
-        gp.obj[7] = new OBJ_Door();
-        gp.obj[7].worldX = 50 * gp.tileSize;
-        gp.obj[7].worldY = 97 * gp.tileSize;
-
-        gp.obj[8] = new OBJ_Chest();
-        gp.obj[8].worldX = 61 * gp.tileSize;
-        gp.obj[8].worldY = 98 * gp.tileSize;
-
-        gp.obj[9] = new OBJ_Boots();
-        gp.obj[9].worldX = 77 * gp.tileSize;
-        gp.obj[9].worldY = 23 * gp.tileSize;
+        gp.setObject(0, new KeyObject(), 50, 94);
+        gp.setObject(1, new KeyObject(), 94, 54);
+        gp.setObject(2, new KeyObject(), 18, 15);
+        gp.setObject(3, new DoorObject(), 87, 15);
+        gp.setObject(4, new ChestObject(), 87, 17);
+        gp.setObject(5, new DoorObject(), 5, 3);
+        gp.setObject(6, new ChestObject(), 7, 5);
+        gp.setObject(7, new DoorObject(), 50, 97);
+        gp.setObject(8, new ChestObject(), 61, 98);
+        gp.setObject(9, new BootsObject(), 77, 23);
     }
 }

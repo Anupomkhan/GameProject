@@ -1,27 +1,27 @@
 package main;
 
-import object.OBJ_Key;
+import object.KeyObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class UI {
 
-    GamePanel gp;
-    Font font,font2 ;
-    BufferedImage keyImage;
-    public boolean messageOn = false;
-    public String message = "";
-    int messageCounter = 0;
-    public boolean gameFinished = false;
+    private final GamePanel gp;
+    private final Font font,font2 ;
+    private final BufferedImage keyImage;
+    private boolean messageOn = false;
+    private String message = "";
+    private int messageCounter = 0;
+    private boolean gameFinished = false;
 
 
     public UI(GamePanel gp){
         this.gp = gp;
         font = new Font("Arial", Font.BOLD,23);
         font2 = new Font("Arial",Font.BOLD,46);
-        OBJ_Key key = new OBJ_Key();
-        keyImage = key.image;
+        KeyObject key = new KeyObject();
+        keyImage = key.getImage();
     }
 
     public void showMessage(String text){
@@ -40,27 +40,27 @@ public class UI {
             int y;
             text = "You found the treasuere!!!";
             textLength = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
-            x = gp.screenWidth/2 - textLength/2;
-            y = gp.screenHeight/2 - g2.getFontMetrics().getHeight()/2;
+            x = gp.getScreenWidth()/2 - textLength/2;
+            y = gp.getScreenHeight()/2 - g2.getFontMetrics().getHeight()/2;
             g2.drawString(text,x,y);
 
             g2.setFont(font2);
             g2.setColor(Color.yellow);
             text = "Congratulations!!!";
             textLength = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
-            x = gp.screenWidth/2 - textLength/2;
-            y = gp.screenHeight/2 + g2.getFontMetrics().getHeight()/2;
+            x = gp.getScreenWidth()/2 - textLength/2;
+            y = gp.getScreenHeight()/2 + g2.getFontMetrics().getHeight()/2;
             g2.drawString(text,x,y);
 
-            gp.gameThread = null;
+            gp.stopGameThread();
         }
         else {
             g2.setFont(font);
             g2.setColor(Color.yellow);
-            g2.drawImage(keyImage,gp.tileSize/2,gp.tileSize/2 , gp.tileSize/2 , gp.tileSize/2,null);
-            g2.drawString("x " + gp.player.hasKey,gp.tileSize,gp.tileSize);
+            g2.drawImage(keyImage,gp.getTileSize()/2,gp.getTileSize()/2 , gp.getTileSize()/2 , gp.getTileSize()/2,null);
+            g2.drawString("x " + gp.getPlayer().getKeyCount(),gp.getTileSize(),gp.getTileSize());
             if(messageOn){
-                g2.drawString(message,gp.tileSize/2,gp.tileSize/2*5);
+                g2.drawString(message,gp.getTileSize()/2,gp.getTileSize()/2*5);
                 messageCounter++;
                 if (messageCounter>120){
                     messageOn = false;
@@ -69,5 +69,9 @@ public class UI {
             }
         }
 
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
     }
 }
